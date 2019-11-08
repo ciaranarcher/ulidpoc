@@ -7,11 +7,10 @@ db_name = 'biz'
 
 client = Mysql2::Client.new(host: db_host, username: db_user, database: db_name)
 
-# We insert some data using MySQL multi-row insert
 puts "record ULID:" + id = ULID.generate
+
 client.query("INSERT into `widgets` (`id`, `name`, `account_id`) VALUES (ULID_DECODE('#{id}'), 'test', 100)")
 
-# # read it back
 results = client.query("SELECT ULID_ENCODE(id) as id, name, account_id FROM `widgets` WHERE id = ULID_DECODE('#{id}')")
 
 puts "results:"
